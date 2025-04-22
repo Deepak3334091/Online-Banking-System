@@ -21,50 +21,50 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    // ✅ 1. Create a new account
+    // Create a new account
     @PostMapping("/create")
     public ResponseEntity<Account> createAccount(@RequestBody Account account) {
         return ResponseEntity.ok(accountService.createAccount(account));
     }
 
-    // ✅ 2. Get account by ID
+    // Retrieve account details by ID
     @GetMapping("/{id}")
     public ResponseEntity<Account> getAccountById(@PathVariable Long id) {
         return ResponseEntity.ok(accountService.getAccountById(id));
     }
 
-    // ✅ 3. Get all accounts
+    // Fetch all registered accounts
     @GetMapping("/all")
     public ResponseEntity<List<Account>> getAllAccounts() {
         return ResponseEntity.ok(accountService.getAllAccounts());
     }
 
-    // ✅ 4. Delete an account
+    // Delete an account by its ID
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
         accountService.deleteAccount(id);
         return ResponseEntity.ok("Account deleted successfully!");
     }
 
-    // ✅ 5. Update account status
+    // Update the status of an account (e.g., ACTIVE, INACTIVE)
     @PutMapping("/{id}/status/{status}")
     public ResponseEntity<Account> updateAccountStatus(@PathVariable Long id, @PathVariable AccountStatus status) {
         return ResponseEntity.ok(accountService.updateAccountStatus(id, status));
     }
 
-    // ✅ 6. Get account by email
+    // Get account by email address
     @GetMapping("/email/{email}")
     public ResponseEntity<Optional<Account>> getAccountByEmail(@PathVariable String email) {
         return ResponseEntity.ok(accountService.getAccountByEmail(email));
     }
 
-    // ✅ 7. Get account by account number
+    // Get account by account number
     @GetMapping("/accountNumber/{accountNumber}")
     public ResponseEntity<Optional<Account>> getAccountByAccountNumber(@PathVariable String accountNumber) {
         return ResponseEntity.ok(accountService.getAccountByAccountNumber(accountNumber));
     }
 
-    // ✅ 8. Get accounts by status
+    // Get all accounts by their current status
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Account>> getAccountsByStatus(@PathVariable AccountStatus status) {
         return ResponseEntity.ok(accountService.getAccountsByStatus(status));

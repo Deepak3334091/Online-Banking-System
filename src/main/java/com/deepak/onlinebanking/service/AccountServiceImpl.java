@@ -20,27 +20,31 @@ public class AccountServiceImpl implements AccountService {
         this.accountRepository = accountRepository;
     }
 
+    // Create a new account after checking for duplicate email or account number
     @Override
     public Account createAccount(Account account) {
         if (accountRepository.findByEmail(account.getEmail()).isPresent() ||
                 accountRepository.findByAccountNumber(account.getAccountNumber()).isPresent()) {
             throw new RuntimeException("Email or Account Number already exists!");
         }
-        account.setStatus(AccountStatus.ACTIVE);
+        account.setStatus(AccountStatus.ACTIVE); // Set default status
         return accountRepository.save(account);
     }
 
+    // Retrieve account by ID, or throw error if not found
     @Override
     public Account getAccountById(Long id) {
         return accountRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Account not found!"));
     }
 
+    // Fetch all accounts from the database
     @Override
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
     }
 
+    // Delete account by ID if it exists
     @Override
     public void deleteAccount(Long id) {
         if (!accountRepository.existsById(id)) {
@@ -49,6 +53,7 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.deleteById(id);
     }
 
+    // Update the status (e.g., ACTIVE, INACTIVE) of an existing account
     @Override
     public Account updateAccountStatus(Long id, AccountStatus status) {
         Account account = getAccountById(id);
@@ -56,21 +61,21 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.save(account);
     }
 
-    // IMPLEMENTING NEW METHODS
-
+    // Retrieve an account by email
     @Override
     public Optional<Account> getAccountByEmail(String email) {
         return accountRepository.findByEmail(email);
     }
 
+    // Retrieve an account by its account number
     @Override
     public Optional<Account> getAccountByAccountNumber(String accountNumber) {
         return accountRepository.findByAccountNumber(accountNumber);
     }
 
+    // Retrieve all accounts by a specific status
     @Override
     public List<Account> getAccountsByStatus(AccountStatus status) {
         return accountRepository.findByStatus(status);
     }
 }
-
